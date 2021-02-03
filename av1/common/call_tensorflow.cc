@@ -30,57 +30,15 @@ PyObject *predict = NULL;
 PyObject *pParm = NULL;
 PyObject *pArgs = NULL;
 
-void TF_Init_Model(FRAME_TYPE frameType, int QP) {
-  if (pMod != NULL) return;
-
-  Py_SetPythonHome(L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu");
-
-  Py_Initialize();
-  Py_SetPath(
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/Lib;"
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/Lib/site-packages;"
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/DLLs");
-
-  if (!Py_IsInitialized()) {
-    printf("Initialize failed!");
-  }
-  char *path = NULL;
-  path = getcwd(NULL, 0);
-  printf("current working directory : %s\n", path);
-  free(path);
-
-  pMod = PyImport_ImportModule("cnn_CRLC");
-  if (!pMod) {
-    printf("Import Module failed!\n");
-  }
-
-  load_model = PyObject_GetAttrString(pMod, "init");
-  if (!load_model) {
-    printf("Import load_model Function failed!\n");
-  }
-
-  predict = PyObject_GetAttrString(pMod, "predict");
-  if (!predict) {
-    printf("Import predict_I Function failed!\n");
-  }
-  pParm = Py_BuildValue("(ii)", frameType, QP);
-  PyEval_CallObject(load_model, pParm);  // 导入预训练的模型
-}
-
 void TF_Init_Models(FRAME_TYPE frameType, int QP) {
   if (pMod != NULL) return;
 
-  Py_SetPythonHome(L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu");
-  // Py_SetPythonHome(L"C:/Users/77103/.conda/envs/tensorflow-cpu");
+  Py_SetPythonHome(L"C:/ProgramX/Anaconda3/envs/tf1.14_cpu");
   Py_Initialize();
   Py_SetPath(
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/Lib;"
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/Lib/site-packages;"
-      L"C:/ProgramData/Anaconda3/envs/tensorflow-140-gpu/DLLs");
-  /* Py_SetPath(
-       L"C:/Users/77103/.conda/envs/tensorflow-cpu/Lib;"
-       L"C:/Users/77103/.conda/envs/tensorflow-cpu/Lib/site-packages;"
-       L"C:/Users/77103/.conda/envs/tensorflow-cpu/DLLs");*/
+      L"C:/ProgramX/Anaconda3/envs/tf1.14_cpu/Lib;"
+      L"C:/ProgramX/Anaconda3/envs/tf1.14_cpu/Lib/site-packages;"
+      L"C:/ProgramX/Anaconda3/envs/tf1.14_cpu/DLLs");
 
   if (!Py_IsInitialized()) {
     printf("Initialize failed!");
@@ -90,7 +48,8 @@ void TF_Init_Models(FRAME_TYPE frameType, int QP) {
   printf("current working directory : %s\n", path);
   free(path);
   #if  CRLC_LF
-  pMod = PyImport_ImportModule("cnn_CRLC_v2");  // cnn_CRLC_v
+  pMod = PyImport_ImportModule("cnn_CRLC_v2_AOM");
+  // pMod = PyImport_ImportModule("cnn_guided_RWARN_2W");
   #else
   pMod = PyImport_ImportModule("cnn_models_class");  // cnn_CRLC_v
   #endif

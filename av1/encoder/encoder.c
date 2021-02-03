@@ -4958,7 +4958,7 @@ static void loopfilter_frame(AV1_COMP *cpi, AV1_COMMON *cm) {
            cm->cur_frame->order_hint, cm->use_cnn, cm->base_qindex / 4);
     // Since cnn restores better than cdef-restoration, disable the
     // cdef-restoration instructions.
-    //cdef_restoration_frame(cpi, cm, xd, 0, 0);
+    cdef_restoration_frame(cpi, cm, xd, 0, 0);
   }
 #endif
 
